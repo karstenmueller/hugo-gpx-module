@@ -6,7 +6,10 @@ This module provides the `gpx-map` shortcode for Hugo. It allows you to embed in
 
 ### Single Route
 
-To display a single GPX file, simply provide the path. The file should generally be located in your site's `static/` folder or within a Page Bundle.
+To display a single GPX file, simply provide the path or filename. The module automatically resolves files in the following priority:
+1. **Page Bundle Resource**: A file in the same folder as the current page (e.g., `file="track.gpx"`). This supports multilingual setups.
+2. **Global Asset**: A file located in `assets/`.
+3. **Static File / URL**: A file in `static/` (e.g., `file="/gpx/track.gpx"`) or a full external URL.
 
 ```go
 {{< gpx-map file="/gpx/hike-alps.gpx" >}}
@@ -132,8 +135,6 @@ Any parameter set in the shortcode will override the global configuration.
 ```
 
 ### Minimalist Example (No Route Panel)
-Use `show-route-selector="false"` to hide the route list and toolbar. Elevation chart visibility still follows `elevation` and `elevation-height` (the elevation toggle sits in the hidden panel).
-
 ```go
 {{< gpx-map file="tour.gpx" show-route-selector="false" >}}
 ```

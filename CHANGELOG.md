@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.5.2] - 2026-03-25
 
-Changes below were integrated from the community fork **[navgatt/hugo-gpx-module](https://github.com/navgatt/hugo-gpx-module)** (fork of [ravelzh/hugo-gpx-module](https://github.com/ravelzh/hugo-gpx-module)): route-selector toggle and PhotoSwipe-compatible stacking. `USAGE.md` documents the route-selector option.
+Integrated from the community fork **[navgatt/hugo-gpx-module](https://github.com/navgatt/hugo-gpx-module)** (fork of [ravelzh/hugo-gpx-module](https://github.com/ravelzh/hugo-gpx-module)): optional route-selector toggle and PhotoSwipe-friendly stacking (`z-index` rule for `.pswp` removed).
 
 ### Added
 - **Shortcode / config:** `show-route-selector` (site param `showRouteSelector`) to hide the route selection panel (track list and its toolbar) while keeping map and elevation chart configurable.

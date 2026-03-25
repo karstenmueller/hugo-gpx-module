@@ -550,7 +550,7 @@
     }
 
     createRouteSelector() {
-      if (String(this.config.showRouteSelector) === 'false') return;
+      if (this.config.showRouteSelector === false || this.config.showRouteSelector === 'false') return;
       const list = document.getElementById(this.mapId + '-routes');
       const sel = document.getElementById(this.mapId + '-route-selector');
       if (!list) return;
