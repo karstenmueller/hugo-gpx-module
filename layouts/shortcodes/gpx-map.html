@@ -35,6 +35,8 @@ Licensed under the Apache License, Version 2.0
 {{- /* Features (Stats/Controls) */ -}}
 {{- $defStats := index $gpxConf "showStats" | default "true" -}}
 {{- $showStats := .Get "show-stats" | default $defStats -}}
+{{- $defRouteSelector := index $gpxConf "showRouteSelector" | default "true" -}}
+{{- $showRouteSelector := .Get "show-route-selector" | default $defRouteSelector -}}
 
 {{- /* Elevation Profile Config */ -}}
 {{- $defEle := index $gpxConf "elevation" | default "true" -}}
@@ -221,6 +223,7 @@ Licensed under the Apache License, Version 2.0
   /* --- CONFIG START --- */
   const config = {
     showStats: {{ $showStats }},
+    showRouteSelector: {{ $showRouteSelector }},
     showMarkers: {{ $showMarkers }},
     ele: { active: {{ $showElevation }}, info: {{ $showEleInfo }}, color: '{{ $eleColor }}' },
     defaultLayer: '{{ $defaultLayer }}',

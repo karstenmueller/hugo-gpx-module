@@ -93,6 +93,7 @@ You can define default settings for **all** maps across your site in your main c
 
   # --- Default Toggles ---
   showStats = true
+  showRouteSelector = true  # Route list and toolbar under the map
   elevation = true
   elevationInfo = true # Show/Hide elevation numeric data (gain/loss)
   markers = true
@@ -114,6 +115,7 @@ Any parameter set in the shortcode will override the global configuration.
 | **route-min-width** | `370px` | Minimum width for columns in the route selection list before wrapping. |
 | **stat-min-width** | `110px` | Minimum width for statistic boxes in the dashboard before wrapping. |
 | **show-stats** | `true` | Shows the dashboard (Distance, Elevation, Time). |
+| **show-route-selector** | `true` | Show/Hide the route selection panel. |
 | **elevation** | `true` | Show/Hide elevation profile on load. |
 | **elevation-info** | `true` | Show/Hide elevation numeric data (gain/loss). Alias: `elevation_info`. |
 | **elevation-height** | `150px` | Height of the elevation chart container. |
@@ -127,4 +129,11 @@ Any parameter set in the shortcode will override the global configuration.
 ### Minimalist Example (No Dashboard)
 ```go
 {{< gpx-map file="tour.gpx" show-stats="false" height="400px" >}}
+```
+
+### Minimalist Example (No Route Panel)
+Use `show-route-selector="false"` to hide the route list and toolbar. Elevation chart visibility still follows `elevation` and `elevation-height` (the elevation toggle sits in the hidden panel).
+
+```go
+{{< gpx-map file="tour.gpx" show-route-selector="false" >}}
 ```

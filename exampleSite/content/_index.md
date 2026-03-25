@@ -21,3 +21,9 @@ date: 2026-01-28
 This map should NOT show elevation gain/loss in the summary box, and popups should generally hide elevation if configured (current implementation hides summary stats mostly).
 
 {{< gpx-map file="test.gpx" file2="test.gpx" elevation-info="false" >}}
+
+## No Route Selector
+
+This map should NOT show the route selection toolbar and list, leaving only the map and potentially stats/elevation below it if enabled.
+
+{{< gpx-map file="test.gpx" file2="test.gpx" show-route-selector="false" >}}

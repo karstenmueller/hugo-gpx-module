@@ -93,6 +93,10 @@ This module offers extensive configuration options, including:
 
 Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/ravelzh/hugo-gpx-module/issues).
 
+## 📋 Changelog
+
+Release notes are in [CHANGELOG.md](CHANGELOG.md). **v1.5.2** includes improvements merged from the fork **[navgatt/hugo-gpx-module](https://github.com/navgatt/hugo-gpx-module)** (PhotoSwipe-friendly CSS and optional hiding of the route selection panel).
+
 ## 📄 License
 
 Licensed under the Apache License, Version 2.0. - see [LICENSE](LICENSE) file for details.
