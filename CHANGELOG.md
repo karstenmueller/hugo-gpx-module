@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.3] - 2026-03-26
+
+### Added
+- **Resource Resolution:** GPX files can now be loaded directly from Hugo Page Bundles (`.Page.Resources.GetMatch`) or Global Assets (`resources.Get`). This resolves pathing issues in multilingual setups having subdirectories.
+
+### Changed
+- **Documentation:** Restructured `USAGE.md` to explicitly clarify the new file resolution priority (Page Bundle > Global Asset > Static/URL fallback).
+
 ## [1.5.2] - 2026-03-25
 
 Integrated from the community fork **[navgatt/hugo-gpx-module](https://github.com/navgatt/hugo-gpx-module)** (fork of [ravelzh/hugo-gpx-module](https://github.com/ravelzh/hugo-gpx-module)): optional route-selector toggle and PhotoSwipe-friendly stacking (`z-index` rule for `.pswp` removed).
