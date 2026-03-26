@@ -95,7 +95,7 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 ## 📋 Changelog
 
-Release notes are in [CHANGELOG.md](CHANGELOG.md). **v1.5.2** includes improvements merged from the fork **[navgatt/hugo-gpx-module](https://github.com/navgatt/hugo-gpx-module)** (PhotoSwipe-friendly CSS and optional hiding of the route selection panel).
+Release notes are in [CHANGELOG.md](CHANGELOG.md).
 
 ## 📄 License
 
