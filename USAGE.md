@@ -4,9 +4,12 @@ This module provides the `gpx-map` shortcode for Hugo. It allows you to embed in
 
 ## 🟢 Basic Usage
 
-### Single Route
+To display a single GPX file, simply provide the path or filename. The module automatically resolves files in the following priority:
+1. **Page Bundle Resource**: A file in the same folder as the current page (e.g., `file="track.gpx"`). This supports multilingual setups.
+2. **Global Asset**: A file located in `assets/`.
+3. **Static File / URL**: A file in `static/` (e.g., `file="/gpx/track.gpx"`) or a full external URL.
 
-To display a single GPX file, simply provide the path. The file should generally be located in your site's `static/` folder or within a Page Bundle.
+### Single Route
 
 ```go
 {{< gpx-map file="/gpx/hike-alps.gpx" >}}
@@ -93,6 +96,7 @@ You can define default settings for **all** maps across your site in your main c
 
   # --- Default Toggles ---
   showStats = true
+  showRouteSelector = true  # Route list and toolbar under the map
   elevation = true
   elevationInfo = true # Show/Hide elevation numeric data (gain/loss)
   markers = true
@@ -114,6 +118,7 @@ Any parameter set in the shortcode will override the global configuration.
 | **route-min-width** | `370px` | Minimum width for columns in the route selection list before wrapping. |
 | **stat-min-width** | `110px` | Minimum width for statistic boxes in the dashboard before wrapping. |
 | **show-stats** | `true` | Shows the dashboard (Distance, Elevation, Time). |
+| **show-route-selector** | `true` | Show/Hide the route selection panel. |
 | **elevation** | `true` | Show/Hide elevation profile on load. |
 | **elevation-info** | `true` | Show/Hide elevation numeric data (gain/loss). Alias: `elevation_info`. |
 | **elevation-height** | `150px` | Height of the elevation chart container. |
@@ -127,4 +132,9 @@ Any parameter set in the shortcode will override the global configuration.
 ### Minimalist Example (No Dashboard)
 ```go
 {{< gpx-map file="tour.gpx" show-stats="false" height="400px" >}}
+```
+
+### Minimalist Example (No Route Panel)
+```go
+{{< gpx-map file="tour.gpx" show-route-selector="false" >}}
 ```

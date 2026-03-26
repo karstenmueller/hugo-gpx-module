@@ -5,6 +5,26 @@ All notable changes to the Hugo GPX Module will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [1.5.3] - 2026-03-26
+
+### Added
+- **Resource Resolution:** GPX files can now be loaded directly from Hugo Page Bundles (`.Page.Resources.GetMatch`) or Global Assets (`resources.Get`). This resolves pathing issues in multilingual setups having subdirectories.
+
+### Changed
+- **Documentation:** Restructured `USAGE.md` to explicitly clarify the new file resolution priority (Page Bundle > Global Asset > Static/URL fallback).
+
+## [1.5.2] - 2026-03-25
+
+Integrated from the community fork **[navgatt/hugo-gpx-module](https://github.com/navgatt/hugo-gpx-module)** (fork of [ravelzh/hugo-gpx-module](https://github.com/ravelzh/hugo-gpx-module)): optional route-selector toggle and PhotoSwipe-friendly stacking (`z-index` rule for `.pswp` removed).
+
+### Added
+- **Shortcode / config:** `show-route-selector` (site param `showRouteSelector`) to hide the route selection panel (track list and its toolbar) while keeping map and elevation chart configurable.
+
+### Fixed
+- **CSS:** Removed `.pswp` (PhotoSwipe root) from the high `z-index` overlay list so PhotoSwipe can manage its own stacking; avoids broken lightbox UI when galleries and maps appear on the same page.
+
 ## [1.5.0] - 2026-02-02
 
 ### Added

@@ -93,6 +93,10 @@ This module offers extensive configuration options, including:
 
 Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/ravelzh/hugo-gpx-module/issues).
 
+## 📋 Changelog
+
+Release notes are in [CHANGELOG.md](CHANGELOG.md).
+
 ## 📄 License
 
 Licensed under the Apache License, Version 2.0. - see [LICENSE](LICENSE) file for details.
