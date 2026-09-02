@@ -272,7 +272,7 @@
             if (el.tags && el.tags.leisure === 'marina') icon = '⛵';
 
             const marker = Leaflet.marker([el.lat, el.lon], {
-              icon: L.divIcon({
+              icon: Leaflet.divIcon({
                 className: 'gpx-harbor-icon',
                 html: `<div style="font-size: 1.2rem; text-shadow: 0 0 2px white;">${icon}</div>`,
                 iconSize: [20, 20],
@@ -424,8 +424,8 @@
         const flat = (f.geometry.type === 'MultiLineString') ? coords.flat() : coords;
         if (flat.length > 0) {
           const start = flat[0]; const end = flat[flat.length - 1];
-          Leaflet.marker([start[1], start[0]], { icon: L.divIcon({ className: 'gpx-marker-start', html: '', iconSize: [12, 12] }), interactive: false }).addTo(markers);
-          Leaflet.marker([end[1], end[0]], { icon: L.divIcon({ className: 'gpx-marker-end', html: '', iconSize: [12, 12] }), interactive: false }).addTo(markers);
+          Leaflet.marker([start[1], start[0]], { icon: Leaflet.divIcon({ className: 'gpx-marker-start', html: '', iconSize: [12, 12] }), interactive: false }).addTo(markers);
+          Leaflet.marker([end[1], end[0]], { icon: Leaflet.divIcon({ className: 'gpx-marker-end', html: '', iconSize: [12, 12] }), interactive: false }).addTo(markers);
         }
       });
       markers.addTo(this.map);
