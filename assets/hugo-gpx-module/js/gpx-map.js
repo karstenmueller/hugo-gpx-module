@@ -142,7 +142,7 @@
         // Add Fullscreen Control
         const fsCtrl = Leaflet.Control.extend({
           onAdd: () => {
-            const btn = L.DomUtil.create('button', 'leaflet-bar leaflet-control leaflet-control-custom');
+            const btn = Leaflet.DomUtil.create('button', 'leaflet-bar leaflet-control leaflet-control-custom');
             btn.style.backgroundColor = 'rgba(255, 255, 255, 0.85)';
             btn.style.width = '30px';
             btn.style.height = '30px';
@@ -389,7 +389,7 @@
 
       this.routeData.set(index, { geojson, color: nextColor, originalFile: file, name: this.getFileName(file) });
 
-      const layer = L.geoJSON(geojson, {
+      const layer = Leaflet.geoJSON(geojson, {
         style: {
           color: nextColor,
           weight: this.config.style.weight,
