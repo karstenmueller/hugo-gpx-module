@@ -1,6 +1,27 @@
 (function (global) {
   'use strict';
 
+// Leaflet's browser build exposes its API as window.L.
+    //
+    // Do not use the bare identifier `L` throughout this module:
+    // a page may contain a global lexical binding such as `const L = ...`
+    // which shadows window.L without replacing the actual Leaflet object.
+    //
+    // Keeping an explicit local reference avoids collisions with themes
+    // and other JavaScript bundles.
+    const Leaflet = global.L;
+
+    if (
+        !Leaflet ||
+        typeof Leaflet.map !== "function" ||
+        !Leaflet.control ||
+        typeof Leaflet.control.layers !== "function"
+    ) {
+        throw new Error(
+            "GPX Map: Leaflet is not available or incomplete on window.L"
+        );
+    }
+
   class GPXMapHandler {
     constructor(mapId, statsId, gpxFiles, config) {
       this.mapId = mapId;
@@ -82,9 +103,12 @@
     }
 
     async init() {
-      if (typeof L === 'undefined') { setTimeout(() => this.init(), 50); return; }
-      try { await this.initMap(); await this.loadGPXFiles(); }
-      catch (err) { console.error("GPX Init Error:", err); }
+        if (!Leaflet) {
+            setTimeout(() => this.init(), 50);
+            return;
+        }
+        try { await this.initMap(); await this.loadGPXFiles(); }
+        catch (err) { console.error("GPX Init Error:", err); }
     }
 
     async initMap() {
@@ -92,7 +116,7 @@
         const el = document.getElementById(this.mapId);
         if (!el) return reject('Map element missing');
 
-        this.map = L.map(this.mapId, {
+        this.map = Leaflet.map(this.mapId, {
           zoomControl: false,
           attributionControl: true,
           preferCanvas: true,
@@ -103,7 +127,7 @@
         });
 
         // Add Transparent Zoom Control to Bottom Right
-        const zoomCtrl = L.control.zoom({ position: 'bottomright' }).addTo(this.map);
+        const zoomCtrl = Leaflet.control.zoom({ position: 'bottomright' }).addTo(this.map);
         const zoomContainer = zoomCtrl.getContainer();
         if (zoomContainer) {
           zoomContainer.style.opacity = '0.9';
@@ -116,7 +140,7 @@
         }
 
         // Add Fullscreen Control
-        const fsCtrl = L.Control.extend({
+        const fsCtrl = Leaflet.Control.extend({
           onAdd: () => {
             const btn = L.DomUtil.create('button', 'leaflet-bar leaflet-control leaflet-control-custom');
             btn.style.backgroundColor = 'rgba(255, 255, 255, 0.85)';
@@ -143,9 +167,9 @@
         new fsCtrl({ position: 'topleft' }).addTo(this.map);
 
         // --- Tile Layers ---
-        const osm = L.tileLayer(this.config.tiles.osm.url, { maxZoom: 19, attribution: this.config.tiles.osm.attr });
-        const topo = L.tileLayer(this.config.tiles.topo.url, { maxZoom: 17, attribution: this.config.tiles.topo.attr });
-        const satellite = L.tileLayer(this.config.tiles.sat.url, { attribution: this.config.tiles.sat.attr });
+        const osm = Leaflet.tileLayer(this.config.tiles.osm.url, { maxZoom: 19, attribution: this.config.tiles.osm.attr });
+        const topo = Leaflet.tileLayer(this.config.tiles.topo.url, { maxZoom: 17, attribution: this.config.tiles.topo.attr });
+        const satellite = Leaflet.tileLayer(this.config.tiles.sat.url, { attribution: this.config.tiles.sat.attr });
 
         const baseMaps = {};
         baseMaps[this.config.txt.standard] = osm;
@@ -156,13 +180,13 @@
 
         const seamarksEnabled = this.config.showSeamarks === true || this.config.showSeamarks === 'true';
         if (seamarksEnabled) {
-          const sea = L.tileLayer(this.config.tiles.sea.url, { attribution: this.config.tiles.sea.attr });
+          const sea = Leaflet.tileLayer(this.config.tiles.sea.url, { attribution: this.config.tiles.sea.attr });
 
           // WMS Layers for Marine Features
           const wmsUrl = 'https://geoserver.openseamap.org/geoserver/wms';
 
           // Meeresprofil: Gebco 2021 Shaded Relief
-          const meeresprofil = L.tileLayer.wms(wmsUrl, {
+          const meeresprofil = Leaflet.tileLayer.wms(wmsUrl, {
             layers: 'gebco2021:gebco_2021',
             format: 'image/png',
             transparent: true,
@@ -172,7 +196,7 @@
 
 
           overlayMaps[this.config.txt.seamarks] = sea;
-          overlayMaps["Häfen"] = L.layerGroup(); // Placeholder for vector layer
+          overlayMaps["Häfen"] = Leaflet.layerGroup(); // Placeholder for vector layer
           overlayMaps["Meeresprofil"] = meeresprofil;
 
           // Activate Seamarks by default
@@ -184,7 +208,7 @@
         else if (this.config.defaultLayer === 'topo') topo.addTo(this.map);
         else osm.addTo(this.map);
 
-        L.control.layers(baseMaps, overlayMaps, { position: 'topright' }).addTo(this.map);
+        Leaflet.control.layers(baseMaps, overlayMaps, { position: 'topright' }).addTo(this.map);
 
         // Bind Harbor Events
         if (seamarksEnabled && this.harborLayer) {
@@ -247,7 +271,7 @@
             let icon = '⚓';
             if (el.tags && el.tags.leisure === 'marina') icon = '⛵';
 
-            const marker = L.marker([el.lat, el.lon], {
+            const marker = Leaflet.marker([el.lat, el.lon], {
               icon: L.divIcon({
                 className: 'gpx-harbor-icon',
                 html: `<div style="font-size: 1.2rem; text-shadow: 0 0 2px white;">${icon}</div>`,
@@ -394,14 +418,14 @@
     }
 
     addStartEndMarkers(index, geojson) {
-      const markers = L.layerGroup();
+      const markers = Leaflet.layerGroup();
       geojson.features.forEach(f => {
         const coords = f.geometry.coordinates;
         const flat = (f.geometry.type === 'MultiLineString') ? coords.flat() : coords;
         if (flat.length > 0) {
           const start = flat[0]; const end = flat[flat.length - 1];
-          L.marker([start[1], start[0]], { icon: L.divIcon({ className: 'gpx-marker-start', html: '', iconSize: [12, 12] }), interactive: false }).addTo(markers);
-          L.marker([end[1], end[0]], { icon: L.divIcon({ className: 'gpx-marker-end', html: '', iconSize: [12, 12] }), interactive: false }).addTo(markers);
+          Leaflet.marker([start[1], start[0]], { icon: L.divIcon({ className: 'gpx-marker-start', html: '', iconSize: [12, 12] }), interactive: false }).addTo(markers);
+          Leaflet.marker([end[1], end[0]], { icon: L.divIcon({ className: 'gpx-marker-end', html: '', iconSize: [12, 12] }), interactive: false }).addTo(markers);
         }
       });
       markers.addTo(this.map);
@@ -517,7 +541,7 @@
 
       const focusCircle = svg.append("circle").attr("class", "elevation-focus-circle").attr("r", 5).attr("fill", this.config.markerEndColor).style("opacity", 0);
       const focusLine = svg.append("line").attr("class", "elevation-focus-line").style("opacity", 0).attr("y1", 0).attr("y2", height);
-      if (!this.focusMarker) this.focusMarker = L.circleMarker([0, 0], { radius: 6, color: this.config.markerEndColor, fillColor: this.config.markerEndColor, fillOpacity: 1 });
+      if (!this.focusMarker) this.focusMarker = Leaflet.circleMarker([0, 0], { radius: 6, color: this.config.markerEndColor, fillColor: this.config.markerEndColor, fillOpacity: 1 });
 
       svg.append("rect").attr("width", width).attr("height", height).style("fill", "none").style("pointer-events", "all")
         .on("mouseover", () => { focusCircle.style("opacity", 1); focusLine.style("opacity", 1); tooltip.style.display = "block"; this.focusMarker.addTo(this.map); })
@@ -632,7 +656,7 @@
 
     fitToRoutes() {
       const layers = []; this.routeLayers.forEach(l => { if (this.map.hasLayer(l)) layers.push(l); });
-      if (layers.length) this.map.flyToBounds(L.featureGroup(layers).getBounds(), { padding: [20, 20], duration: 1.5 });
+      if (layers.length) this.map.flyToBounds(Leaflet.featureGroup(layers).getBounds(), { padding: [20, 20], duration: 1.5 });
     }
 
     calculateAndShowTotalStats() {
